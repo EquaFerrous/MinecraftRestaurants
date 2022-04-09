@@ -4,3 +4,7 @@ main: me.equaferrous.minecraftrestaurants.MinecraftRestaurants
 api-version: 1.18
 authors: [ EquaFerrous ]
 description: Run a restaurant and serve customers.
+commands:
+  createcustomer:
+    description: Your description
+    usage: /<command>
