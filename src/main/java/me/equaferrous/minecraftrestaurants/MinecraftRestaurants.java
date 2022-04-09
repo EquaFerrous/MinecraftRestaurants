@@ -12,7 +12,7 @@ public final class MinecraftRestaurants extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        
+
         getServer().getConsoleSender().sendMessage("[Restaurants] Enabled successfully");
     }
 }
