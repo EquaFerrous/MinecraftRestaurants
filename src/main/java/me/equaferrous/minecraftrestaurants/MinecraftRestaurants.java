@@ -13,6 +13,8 @@ public final class MinecraftRestaurants extends JavaPlugin {
     public void onEnable() {
         this.getCommand("createcustomer").setExecutor(new CreateCustomer());
 
+        new CustomerManager();
+
         getServer().getConsoleSender().sendMessage("[Restaurants] Enabled successfully");
     }
 
@@ -29,6 +31,6 @@ public final class MinecraftRestaurants extends JavaPlugin {
             }
         }
 
-        getServer().getConsoleSender().sendMessage("[Restaurants] Enabled successfully");
+        getServer().getConsoleSender().sendMessage("[Restaurants] Disabled successfully");
     }
 }

@@ -1,6 +1,7 @@
 package me.equaferrous.minecraftrestaurants.commands;
 
 import me.equaferrous.minecraftrestaurants.Customer;
+import me.equaferrous.minecraftrestaurants.CustomerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,10 +18,9 @@ public class CreateCustomer implements CommandExecutor {
         Player player = (Player) sender;
 
         if (command.getName().equalsIgnoreCase("createcustomer")) {
-            new Customer(player.getLocation(), 1);
-            new Customer(player.getLocation().add(2,0,0), 2);
-            new Customer(player.getLocation().add(4,0,0), 3);
+            CustomerManager.GetInstance().SpawnCustomer(player.getLocation());
         }
+
         return true;
     }
 }
