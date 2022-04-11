@@ -1,5 +1,6 @@
 package me.equaferrous.minecraftrestaurants;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -8,6 +9,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ public class Customer {
 
     private int tier;
     private Villager entity;
+    private BukkitTask tickTask;
 
     // ---------------------------------------------------------------------------
 
@@ -35,6 +39,20 @@ public class Customer {
         merchantRecipes.add(trade);
 
         entity.setRecipes(merchantRecipes);
+
+        tickTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::CustomerTickCheck, 0, 20);
+    }
+
+    // -------------------------------------------------------------------------
+
+    public void Leave() {
+        if (CheckIfServed()) {
+            LeaveHappy();
+        }
+    }
+
+    public Villager GetVillager() {
+        return entity;
     }
 
     // -------------------------------------------------------------------------
@@ -52,5 +70,28 @@ public class Customer {
         else if (tier == 3) {
             entity.setVillagerLevel(4);
         }
+    }
+
+    private void CustomerTickCheck() {
+        if (CheckIfServed()) {
+            tickTask.cancel();
+            tickTask = null;
+            LeaveHappy();
+        }
+    }
+
+    private boolean CheckIfServed() {
+        boolean finished = true;
+        for (MerchantRecipe recipe : entity.getRecipes()) {
+            if (recipe.getUses() < recipe.getMaxUses()) {
+                finished = false;
+            }
+        }
+        return finished;
+    }
+
+    private void LeaveHappy() {
+        entity.remove();
+        Bukkit.broadcastMessage("Customer served.");
     }
 }
