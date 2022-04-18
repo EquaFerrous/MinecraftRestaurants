@@ -14,6 +14,8 @@ public class Customer {
     private int tier;
     private Villager entity;
     private BukkitTask tickTask;
+    private int timeToLeave;
+    private int expTimerIncrement;
 
     // ---------------------------------------------------------------------------
 
@@ -49,22 +51,44 @@ public class Customer {
         entity.setCustomName("Tier "+ tier +" Customer");
 
         if (tier == 1) {
+            timeToLeave = 30;
             entity.setVillagerLevel(2);
+            expTimerIncrement = 60 / timeToLeave;
+            entity.setVillagerExperience(69);
         }
         else if (tier == 2) {
+            timeToLeave = 45;
             entity.setVillagerLevel(3);
+            expTimerIncrement = 80 / timeToLeave;
+            entity.setVillagerExperience(149);
         }
         else if (tier == 3) {
+            timeToLeave = 60;
             entity.setVillagerLevel(4);
+            expTimerIncrement = 100 / timeToLeave;
+            entity.setVillagerExperience(249);
         }
     }
 
     private void CustomerTickCheck() {
         if (CheckIfServed()) {
-            tickTask.cancel();
-            tickTask = null;
+            CancelTickTask();
             LeaveHappy();
         }
+
+        timeToLeave -= 1;
+        if (timeToLeave <= 0) {
+            CancelTickTask();
+            LeaveBad();
+        }
+        else {
+            entity.setVillagerExperience(entity.getVillagerExperience() - expTimerIncrement);
+        }
+    }
+
+    private void CancelTickTask() {
+        tickTask.cancel();
+        tickTask = null;
     }
 
     private boolean CheckIfServed() {
@@ -80,5 +104,10 @@ public class Customer {
     private void LeaveHappy() {
         entity.remove();
         Bukkit.broadcastMessage("Customer served.");
+    }
+
+    private void LeaveBad() {
+        entity.remove();
+        Bukkit.broadcastMessage("Customer left.");
     }
 }
