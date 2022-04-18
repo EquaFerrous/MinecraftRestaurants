@@ -1,8 +1,7 @@
 package me.equaferrous.minecraftrestaurants;
 
 import me.equaferrous.minecraftrestaurants.commands.CreateCustomer;
-import me.equaferrous.minecraftrestaurants.items.Orders;
-import me.equaferrous.minecraftrestaurants.items.Rewards;
+import me.equaferrous.minecraftrestaurants.recipes.CustomerTrades;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
@@ -23,8 +22,7 @@ public final class MinecraftRestaurants extends JavaPlugin {
         this.getCommand("createcustomer").setExecutor(new CreateCustomer());
 
         new CustomerManager();
-        new Orders();
-        new Rewards();
+        new CustomerTrades();
 
         getServer().getConsoleSender().sendMessage("[Restaurants] Enabled successfully");
     }
