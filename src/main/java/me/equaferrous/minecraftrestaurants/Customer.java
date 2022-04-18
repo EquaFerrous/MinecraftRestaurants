@@ -2,6 +2,7 @@ package me.equaferrous.minecraftrestaurants;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.MerchantRecipe;
@@ -104,10 +105,14 @@ public class Customer {
     private void LeaveHappy() {
         entity.remove();
         Bukkit.broadcastMessage("Customer served.");
+        Location location = entity.getLocation();
+        entity.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, location.getX(), location.getY() + 0.75, location.getZ(), 25, 0.5, 0.75, 0.5);
     }
 
     private void LeaveBad() {
         entity.remove();
         Bukkit.broadcastMessage("Customer left.");
+        Location location = entity.getLocation();
+        entity.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, location.getX(), location.getY() + 0.75, location.getZ(), 7, 0.5, 0.75, 0.5);
     }
 }
