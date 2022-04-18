@@ -8,8 +8,6 @@ import java.util.List;
 
 public class Orders {
 
-    private static Orders instance;
-
     private List<ItemStack> tier1Orders = new ArrayList<>();
     private List<ItemStack> tier2Orders = new ArrayList<>();
     private List<ItemStack> tier3Orders = new ArrayList<>();
@@ -17,17 +15,9 @@ public class Orders {
     // -----------------------------------------------------
 
     public Orders() {
-        if (instance == null) {
-            instance = this;
-        }
-
         SetupT1Orders();
         SetupT2Orders();
         SetupT3Orders();
-    }
-
-    public static Orders GetInstance() {
-        return instance;
     }
 
     // -------------------------------------------------------

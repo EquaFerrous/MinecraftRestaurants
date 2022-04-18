@@ -8,8 +8,6 @@ import java.util.List;
 
 public class Rewards {
 
-    private static Rewards instance;
-
     private List<ItemStack> tier1Rewards = new ArrayList<>();
     private List<ItemStack> tier2Rewards = new ArrayList<>();
     private List<ItemStack> tier3Rewards = new ArrayList<>();
@@ -17,17 +15,9 @@ public class Rewards {
     // -----------------------------------------------------
 
     public Rewards() {
-        if (instance == null) {
-            instance = this;
-        }
-
         SetupT1Rewards();
         SetupT2Rewards();
         SetupT3Rewards();
-    }
-
-    public static Rewards GetInstance() {
-        return instance;
     }
 
     // -------------------------------------------------------
