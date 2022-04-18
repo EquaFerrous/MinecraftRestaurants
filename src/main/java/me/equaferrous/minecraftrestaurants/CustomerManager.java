@@ -1,7 +1,9 @@
 package me.equaferrous.minecraftrestaurants;
 
+import me.equaferrous.minecraftrestaurants.recipes.CustomerTrades;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.inventory.MerchantRecipe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +37,11 @@ public class CustomerManager {
     // ---------------------------------------------------------------
 
     public void SpawnCustomer(Location location) {
-        Customer newCustomer = new Customer(location, GetRandomCustomerTier());
+        int tier = GetRandomCustomerTier();
+        List<MerchantRecipe> customerOrders = new ArrayList<>();
+        customerOrders.add(CustomerTrades.GetInstance().GetRandomOrder(tier));
+
+        Customer newCustomer = new Customer(location, tier, customerOrders);
         customerList.add(newCustomer);
     }
 
@@ -56,7 +62,6 @@ public class CustomerManager {
         }
 
         double choice = random.nextDouble() * totalWeight;
-        Bukkit.broadcastMessage(String.valueOf(choice));
 
         for (Integer tier : customerTierWeights.keySet()) {
             double weight = customerTierWeights.get(tier);

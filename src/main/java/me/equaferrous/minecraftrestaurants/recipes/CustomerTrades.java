@@ -2,11 +2,13 @@ package me.equaferrous.minecraftrestaurants.recipes;
 
 import me.equaferrous.minecraftrestaurants.items.Orders;
 import me.equaferrous.minecraftrestaurants.items.Rewards;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CustomerTrades {
 
@@ -14,6 +16,8 @@ public class CustomerTrades {
 
     private Orders orders;
     private Rewards rewards;
+
+    private Random rand = new Random();
 
     private List<MerchantRecipe> tier1Orders = new ArrayList<>();
     private List<MerchantRecipe> tier2Orders = new ArrayList<>();
@@ -52,6 +56,21 @@ public class CustomerTrades {
         return tier3Orders;
     }
 
+    public MerchantRecipe GetRandomOrder(int tier) {
+        MerchantRecipe chosenRecipe;
+        if (tier == 1) {
+            chosenRecipe = tier1Orders.get(rand.nextInt(tier1Orders.size()));
+        }
+        else if (tier == 2) {
+            chosenRecipe = tier2Orders.get(rand.nextInt(tier2Orders.size()));
+        }
+        else {
+            chosenRecipe = tier3Orders.get(rand.nextInt(tier3Orders.size()));
+        }
+
+        return chosenRecipe;
+    }
+
     // -----------------------------------------------------
 
     private void SetupT1Orders() {
@@ -69,7 +88,7 @@ public class CustomerTrades {
             for (ItemStack reward : rewards.GetT2Rewards()) {
                 MerchantRecipe recipe = new MerchantRecipe(reward, 0, 1, false, 0, 0);
                 recipe.addIngredient(order);
-                tier1Orders.add(recipe);
+                tier2Orders.add(recipe);
             }
         }
     }
@@ -79,7 +98,7 @@ public class CustomerTrades {
             for (ItemStack reward : rewards.GetT3Rewards()) {
                 MerchantRecipe recipe = new MerchantRecipe(reward, 0, 1, false, 0, 0);
                 recipe.addIngredient(order);
-                tier1Orders.add(recipe);
+                tier3Orders.add(recipe);
             }
         }
     }

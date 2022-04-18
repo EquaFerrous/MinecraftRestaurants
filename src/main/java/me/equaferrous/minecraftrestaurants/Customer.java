@@ -2,17 +2,11 @@ package me.equaferrous.minecraftrestaurants;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
@@ -23,22 +17,15 @@ public class Customer {
 
     // ---------------------------------------------------------------------------
 
-    public Customer(Location location, int tier) {
+    public Customer(Location location, int tier, List<MerchantRecipe> orders) {
         entity = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
-        this.tier = tier;
 
         SetCustomerTier(tier);
-        entity.setProfession(Villager.Profession.TOOLSMITH);
 
+        entity.setProfession(Villager.Profession.TOOLSMITH);
+        entity.setRecipes(orders);
         entity.setAI(false);
         entity.addScoreboardTag("MinecraftRestaurants");
-
-        MerchantRecipe trade = new MerchantRecipe(new ItemStack(Material.EMERALD, 1), 0, 1, false, 0, 0);
-        trade.addIngredient(new ItemStack(Material.COOKIE, 1));
-        List<MerchantRecipe> merchantRecipes = new ArrayList<>();
-        merchantRecipes.add(trade);
-
-        entity.setRecipes(merchantRecipes);
 
         tickTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::CustomerTickCheck, 0, 20);
     }
