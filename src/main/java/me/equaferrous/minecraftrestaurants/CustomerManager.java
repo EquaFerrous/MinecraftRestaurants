@@ -4,6 +4,7 @@ import me.equaferrous.minecraftrestaurants.recipes.CustomerTrades;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class CustomerManager {
     private List<Customer> customerList = new ArrayList<>();
     private HashMap<Integer, Double> customerTierWeights = new HashMap<>();
     private Random random = new Random();
+    private BukkitTask customerUpdateTask;
 
     // --------------------------------------------------------------
 
@@ -26,6 +28,7 @@ public class CustomerManager {
         }
 
         SetupTierWeights();
+        customerUpdateTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::CustomerUpdate, 20, 20);
     }
 
     // ----------------------------------------------------------------
@@ -43,6 +46,11 @@ public class CustomerManager {
 
         Customer newCustomer = new Customer(location, tier, customerOrders);
         customerList.add(newCustomer);
+    }
+
+    public void CustomerLeave(Customer customer) {
+        customer.Leave();
+        customerList.remove(customer);
     }
 
     // -----------------------------------------------------------------
@@ -73,5 +81,18 @@ public class CustomerManager {
             }
         }
         return 0;
+    }
+
+    // Updates all active customers
+    private void CustomerUpdate() {
+        List<Customer> allCustomers = new ArrayList<>(customerList);
+        for (Customer customer : allCustomers) {
+            customer.Update();
+
+            if (customer.CheckToLeave()) {
+                CustomerLeave(customer);
+            }
+        }
+
     }
 }

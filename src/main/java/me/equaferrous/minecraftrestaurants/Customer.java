@@ -14,9 +14,10 @@ public class Customer {
 
     private int tier;
     private Villager entity;
-    private BukkitTask tickTask;
-    private int timeToLeave;
     private int expTimerIncrement;
+
+    private boolean served = false;
+    private int timeToLeave;
 
     // ---------------------------------------------------------------------------
 
@@ -29,21 +30,34 @@ public class Customer {
         entity.setRecipes(orders);
         entity.setAI(false);
         entity.addScoreboardTag("MinecraftRestaurants");
-
-        tickTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::CustomerTickCheck, 0, 20);
     }
 
     // -------------------------------------------------------------------------
 
     public void Leave() {
-        if (CheckIfServed()) {
+        if (served) {
             LeaveHappy();
+        }
+        else {
+            LeaveBad();
         }
     }
 
-    public Villager GetVillager() {
-        return entity;
+    public boolean CheckToLeave() {
+        if (timeToLeave <= 0 || CheckIfServed()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
+    public void Update() {
+        timeToLeave -= 1;
+        Bukkit.broadcastMessage(String.valueOf(timeToLeave));
+        entity.setVillagerExperience(entity.getVillagerExperience() - expTimerIncrement);
+    }
+
 
     // -------------------------------------------------------------------------
 
@@ -71,35 +85,15 @@ public class Customer {
         }
     }
 
-    private void CustomerTickCheck() {
-        if (CheckIfServed()) {
-            CancelTickTask();
-            LeaveHappy();
-        }
-
-        timeToLeave -= 1;
-        if (timeToLeave <= 0) {
-            CancelTickTask();
-            LeaveBad();
-        }
-        else {
-            entity.setVillagerExperience(entity.getVillagerExperience() - expTimerIncrement);
-        }
-    }
-
-    private void CancelTickTask() {
-        tickTask.cancel();
-        tickTask = null;
-    }
-
     private boolean CheckIfServed() {
-        boolean finished = true;
+        boolean served = true;
         for (MerchantRecipe recipe : entity.getRecipes()) {
             if (recipe.getUses() < recipe.getMaxUses()) {
-                finished = false;
+                served = false;
             }
         }
-        return finished;
+        this.served = served;
+        return served;
     }
 
     private void LeaveHappy() {
