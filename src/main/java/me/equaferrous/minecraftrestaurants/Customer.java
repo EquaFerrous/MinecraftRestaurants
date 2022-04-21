@@ -14,10 +14,11 @@ public class Customer {
 
     private int tier;
     private Villager entity;
-    private int expTimerIncrement;
+    private double expTimerIncrement;
+    private double villagerExp;
 
     private boolean served = false;
-    private int timeToLeave;
+    private double timeToLeave;
 
     // ---------------------------------------------------------------------------
 
@@ -54,8 +55,8 @@ public class Customer {
 
     public void Update() {
         timeToLeave -= 1;
-        Bukkit.broadcastMessage(String.valueOf(timeToLeave));
-        entity.setVillagerExperience(entity.getVillagerExperience() - expTimerIncrement);
+        villagerExp = villagerExp - expTimerIncrement;
+        UpdateVillagerExp();
     }
 
 
@@ -69,20 +70,21 @@ public class Customer {
             timeToLeave = 30;
             entity.setVillagerLevel(2);
             expTimerIncrement = 60 / timeToLeave;
-            entity.setVillagerExperience(69);
+            villagerExp = 69;
         }
         else if (tier == 2) {
             timeToLeave = 45;
             entity.setVillagerLevel(3);
             expTimerIncrement = 80 / timeToLeave;
-            entity.setVillagerExperience(149);
+            villagerExp = 149;
         }
         else if (tier == 3) {
             timeToLeave = 60;
             entity.setVillagerLevel(4);
             expTimerIncrement = 100 / timeToLeave;
-            entity.setVillagerExperience(249);
+            villagerExp = 249;
         }
+        UpdateVillagerExp();
     }
 
     private boolean CheckIfServed() {
@@ -108,5 +110,9 @@ public class Customer {
         Bukkit.broadcastMessage("Customer left.");
         Location location = entity.getLocation();
         entity.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, location.getX(), location.getY() + 0.75, location.getZ(), 7, 0.5, 0.75, 0.5);
+    }
+
+    private void UpdateVillagerExp() {
+        entity.setVillagerExperience((int) villagerExp);
     }
 }
