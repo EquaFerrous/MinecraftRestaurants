@@ -30,6 +30,11 @@ public class SeatManager {
         seat.removeOccupant();
     }
 
+    public void createSeat(Location location) {
+        allSeats.add(new Seat(location));
+        availableSeats.add(new Seat(location));
+    }
+
     public void removeSeat(Seat seat) {
         allSeats.remove(seat);
         availableSeats.remove(seat);
@@ -45,9 +50,4 @@ public class SeatManager {
     }
 
     // ------------------------------------------------
-
-    private void createSeat(Location location) {
-        allSeats.add(new Seat(location));
-        availableSeats.add(new Seat(location));
-    }
 }
