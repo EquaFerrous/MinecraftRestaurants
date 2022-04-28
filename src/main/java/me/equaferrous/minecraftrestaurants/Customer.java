@@ -19,10 +19,13 @@ public class Customer {
 
     private boolean served = false;
     private double timeToLeave;
+    private Seat seat;
 
     // ---------------------------------------------------------------------------
 
-    public Customer(Location location, int tier, List<MerchantRecipe> orders) {
+    public Customer(Seat seat, int tier, List<MerchantRecipe> orders) {
+        this.seat = seat;
+        Location location = this.seat.getLocation();
         entity = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
 
         SetCustomerTier(tier);
@@ -59,6 +62,9 @@ public class Customer {
         UpdateVillagerExp();
     }
 
+    public Seat getSeat() {
+        return seat;
+    }
 
     // -------------------------------------------------------------------------
 
