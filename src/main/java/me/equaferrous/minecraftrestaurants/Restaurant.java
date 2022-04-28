@@ -4,16 +4,15 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Restaurant {
 
     private CustomerManager customerManager;
+    private SeatManager seatManager;
 
     private Player owner;
-    private List<Player> moderators = new ArrayList<>();
     private boolean open = false;
-    private Location location;
+    private Location centreLocation;
 
     private int level = 1;
     private String name;
@@ -21,34 +20,33 @@ public class Restaurant {
     // -------------------------------------------------------
 
     public Restaurant(Player owner, Location location) {
-        customerManager = new CustomerManager();
+        seatManager = new SeatManager(new ArrayList<>());
+        customerManager = new CustomerManager(seatManager);
+
         this.owner = owner;
-        AddModerator(owner);
-        SetLocation(location);
+        setCentreLocation(location);
 
         name = this.owner.getDisplayName() + "'s Restaurant";
     }
 
     // --------------------------------------------------------
 
-    public void AddModerator(Player moderator) {
-        moderators.add(moderator);
-    }
-
     public void OpenRestaurant() {
         if (!open) {
             open = true;
+            customerManager.startCustomerSpawning();
         }
     }
 
     public void CloseRestaurant() {
         if (open) {
             open = false;
+            customerManager.stopCustomerSpawning();
         }
     }
 
-    public void SetLocation(Location location) {
-        this.location = location;
+    public void setCentreLocation(Location centreLocation) {
+        this.centreLocation = centreLocation;
     }
 
     // --------------------------------------------------------

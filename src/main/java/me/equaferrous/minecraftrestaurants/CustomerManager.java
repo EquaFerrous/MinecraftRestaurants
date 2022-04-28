@@ -13,19 +13,20 @@ import java.util.Random;
 
 public class CustomerManager {
 
-    private static CustomerManager instance;
+    private final SeatManager seatManager;
 
-    private List<Customer> customerList = new ArrayList<>();
-    private HashMap<Integer, Double> customerTierWeights = new HashMap<>();
-    private Random random = new Random();
+    private final List<Customer> allCustomers = new ArrayList<>();
+    private final HashMap<Integer, Double> customerTierWeights = new HashMap<>();
+    private final Random random = new Random();
     private BukkitTask customerUpdateTask;
+
+    private BukkitTask customerSpawnTask;
+    private final int maxSpawnTime = 30;
 
     // --------------------------------------------------------------
 
-    public CustomerManager() {
-        if (instance == null) {
-            instance = this;
-        }
+    public CustomerManager(SeatManager seatManager) {
+        this.seatManager = seatManager;
 
         SetupTierWeights();
         customerUpdateTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::CustomerUpdate, 20, 20);
@@ -33,24 +34,31 @@ public class CustomerManager {
 
     // ----------------------------------------------------------------
 
-    public static CustomerManager GetInstance() {
-        return instance;
+    public void startCustomerSpawning() {
+        customerSpawnTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::spawnRandomCustomer, maxSpawnTime, maxSpawnTime);
     }
 
-    // ---------------------------------------------------------------
+    public void stopCustomerSpawning() {
+        customerSpawnTask.cancel();
+    }
 
-    public void SpawnCustomer(Location location) {
+    // Spawns a customer
+    public void spawnRandomCustomer() {
         int tier = GetRandomCustomerTier();
-        List<MerchantRecipe> customerOrders = new ArrayList<>();
-        customerOrders.add(CustomerTrades.GetInstance().GetRandomOrder(tier));
+        List<MerchantRecipe> orders = new ArrayList<>();
+        orders.add(CustomerTrades.GetInstance().GetRandomOrder(tier));
 
-        Customer newCustomer = new Customer(location, tier, customerOrders);
-        customerList.add(newCustomer);
+        List<Seat> availableSeats = seatManager.getAvailableSeats();
+        if (availableSeats.size() > 0) {
+            Seat seat = availableSeats.get(random.nextInt(availableSeats.size()));
+            createCustomer(seat, tier, orders);
+        }
     }
 
     public void CustomerLeave(Customer customer) {
         customer.Leave();
-        customerList.remove(customer);
+        allCustomers.remove(customer);
+        seatManager.emptySeat(customer.getSeat());
     }
 
     // -----------------------------------------------------------------
@@ -60,6 +68,12 @@ public class CustomerManager {
         customerTierWeights.putIfAbsent(1, 40.0);
         customerTierWeights.putIfAbsent(2, 35.0);
         customerTierWeights.putIfAbsent(3, 25.0);
+    }
+
+    private void createCustomer(Seat seat, int tier, List<MerchantRecipe> orders) {
+        Customer newCustomer = new Customer(seat, tier, orders);
+        seatManager.occupySeat(seat);
+        allCustomers.add(newCustomer);
     }
 
     // Chooses a random customer tier
@@ -85,7 +99,7 @@ public class CustomerManager {
 
     // Updates all active customers
     private void CustomerUpdate() {
-        List<Customer> allCustomers = new ArrayList<>(customerList);
+        List<Customer> allCustomers = new ArrayList<>(this.allCustomers);
         for (Customer customer : allCustomers) {
             customer.Update();
 

@@ -20,14 +20,14 @@ public class SeatManager {
 
     // ------------------------------------------------
 
-    public void occupySeat(Seat seat, Customer customer) {
+    public void occupySeat(Seat seat) {
         availableSeats.remove(seat);
-        seat.setOccupant(customer);
+        seat.setOccupied(true);
     }
 
     public void emptySeat(Seat seat) {
         availableSeats.add(seat);
-        seat.removeOccupant();
+        seat.setOccupied(false);
     }
 
     public void createSeat(Location location) {
@@ -38,7 +38,6 @@ public class SeatManager {
     public void removeSeat(Seat seat) {
         allSeats.remove(seat);
         availableSeats.remove(seat);
-        seat.removeOccupant();
     }
 
     public List<Seat> getAvailableSeats() {
