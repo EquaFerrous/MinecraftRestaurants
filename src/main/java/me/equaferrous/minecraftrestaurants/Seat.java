@@ -1,16 +1,17 @@
 package me.equaferrous.minecraftrestaurants;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
 public class Seat {
 
     private boolean occupied = false;
-    private final Location location;
+    private final Block block;
 
     // ---------------------------------------------
 
     public Seat(Location location) {
-        this.location = location;
+        block = location.getWorld().getBlockAt(location);
     }
 
     // ---------------------------------------------
@@ -24,7 +25,11 @@ public class Seat {
     }
 
     public Location getLocation() {
-        return location;
+        return block.getLocation();
+    }
+
+    public Block getBlock() {
+        return block;
     }
 
     // -----------------------------------------------------
