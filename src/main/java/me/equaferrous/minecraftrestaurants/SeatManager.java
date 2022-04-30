@@ -30,9 +30,24 @@ public class SeatManager {
         seat.setOccupied(false);
     }
 
-    public void createSeat(Location location) {
-        allSeats.add(new Seat(location));
-        availableSeats.add(new Seat(location));
+    public Seat createSeat(Location location) {
+        boolean locationFree = true;
+        for (Seat seat : allSeats) {
+            if (seat.getBlock().equals(location.getBlock())) {
+                locationFree = false;
+                break;
+            }
+        }
+
+        if (locationFree) {
+            Seat newSeat = new Seat(location);
+            allSeats.add(newSeat);
+            availableSeats.add(newSeat);
+            return newSeat;
+        }
+        else {
+            return null;
+        }
     }
 
     public void removeSeat(Seat seat) {
