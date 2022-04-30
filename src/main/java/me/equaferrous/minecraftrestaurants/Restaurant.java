@@ -12,19 +12,17 @@ public class Restaurant {
 
     private Player owner;
     private boolean open = false;
-    private Location centreLocation;
 
     private int level = 1;
     private String name;
 
     // -------------------------------------------------------
 
-    public Restaurant(Player owner, Location location) {
+    public Restaurant(Player owner) {
         seatManager = new SeatManager(new ArrayList<>());
         customerManager = new CustomerManager(seatManager);
 
         this.owner = owner;
-        setCentreLocation(location);
 
         name = this.owner.getDisplayName() + "'s Restaurant";
     }
@@ -43,10 +41,6 @@ public class Restaurant {
             open = false;
             customerManager.stopCustomerSpawning();
         }
-    }
-
-    public void setCentreLocation(Location centreLocation) {
-        this.centreLocation = centreLocation;
     }
 
     // --------------------------------------------------------

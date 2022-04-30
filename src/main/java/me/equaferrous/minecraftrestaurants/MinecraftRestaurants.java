@@ -19,6 +19,7 @@ public final class MinecraftRestaurants extends JavaPlugin {
         instance = this;
 
         new CustomerTrades();
+        new RestaurantManager();
 
         getServer().getConsoleSender().sendMessage("[Restaurants] Enabled successfully");
     }
