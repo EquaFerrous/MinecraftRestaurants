@@ -43,5 +43,9 @@ public class Restaurant {
         }
     }
 
+    public SeatManager getSeatManager() {
+        return seatManager;
+    }
+
     // --------------------------------------------------------
 }

@@ -1,6 +1,7 @@
 package me.equaferrous.minecraftrestaurants;
 
 import me.equaferrous.minecraftrestaurants.commands.CreateRestaurant;
+import me.equaferrous.minecraftrestaurants.commands.CreateSeat;
 import me.equaferrous.minecraftrestaurants.recipes.CustomerTrades;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -23,6 +24,7 @@ public final class MinecraftRestaurants extends JavaPlugin {
         new RestaurantManager();
 
         this.getCommand("createRestaurant").setExecutor(new CreateRestaurant());
+        this.getCommand("createSeat").setExecutor(new CreateSeat());
 
         getServer().getConsoleSender().sendMessage("[Restaurants] Enabled successfully");
     }

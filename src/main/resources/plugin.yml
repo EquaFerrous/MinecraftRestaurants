@@ -8,3 +8,6 @@ commands:
   createRestaurant:
     description: Creates your restaurant.
     usage: /<command>
+  createSeat:
+    description: Places a seat for your restaurant.
+    usage: /<command>
