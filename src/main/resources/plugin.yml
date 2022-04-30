@@ -11,3 +11,6 @@ commands:
   createSeat:
     description: Places a seat for your restaurant.
     usage: /<command>
+  toggleRestaurantOpen:
+    description: Opens or closes your restaurant.
+    usgae: /<command>

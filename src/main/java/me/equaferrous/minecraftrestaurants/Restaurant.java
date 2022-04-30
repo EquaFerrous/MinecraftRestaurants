@@ -47,5 +47,9 @@ public class Restaurant {
         return seatManager;
     }
 
+    public boolean isOpen() {
+        return open;
+    }
+
     // --------------------------------------------------------
 }
