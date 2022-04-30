@@ -25,7 +25,9 @@ public class Seat {
     }
 
     public Location getLocation() {
-        return block.getLocation();
+        Location location = block.getLocation();
+        location.add(0.5, 0, 0.5);
+        return location;
     }
 
     public Block getBlock() {
