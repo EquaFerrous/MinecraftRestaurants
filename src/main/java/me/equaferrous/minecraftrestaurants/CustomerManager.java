@@ -21,7 +21,7 @@ public class CustomerManager {
     private BukkitTask customerUpdateTask;
 
     private BukkitTask customerSpawnTask;
-    private final int maxSpawnTime = 30;
+    private final int maxSpawnTime = 15;
 
     // --------------------------------------------------------------
 
@@ -35,7 +35,7 @@ public class CustomerManager {
     // ----------------------------------------------------------------
 
     public void startCustomerSpawning() {
-        customerSpawnTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::spawnRandomCustomer, maxSpawnTime, maxSpawnTime);
+        customerSpawnTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::spawnRandomCustomer, 0, maxSpawnTime * 20);
     }
 
     public void stopCustomerSpawning() {
