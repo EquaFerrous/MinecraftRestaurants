@@ -3,6 +3,7 @@ package me.equaferrous.minecraftrestaurants;
 import me.equaferrous.minecraftrestaurants.recipes.CustomerTrades;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -23,10 +24,13 @@ public class CustomerManager {
     private BukkitTask customerSpawnTask;
     private final int maxSpawnTime = 15;
 
+    private final List<Player> messageRecipients;
+
     // --------------------------------------------------------------
 
-    public CustomerManager(SeatManager seatManager) {
+    public CustomerManager(SeatManager seatManager, List<Player> messageRecipients) {
         this.seatManager = seatManager;
+        this.messageRecipients = messageRecipients;
 
         SetupTierWeights();
         customerUpdateTask = Bukkit.getScheduler().runTaskTimer(MinecraftRestaurants.GetInstance(), this::CustomerUpdate, 20, 20);
@@ -56,7 +60,7 @@ public class CustomerManager {
     }
 
     public void CustomerLeave(Customer customer) {
-        customer.Leave();
+        customer.Leave(messageRecipients);
         allCustomers.remove(customer);
         seatManager.emptySeat(customer.getSeat());
     }

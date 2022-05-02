@@ -4,11 +4,12 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Restaurant {
 
-    private CustomerManager customerManager;
-    private SeatManager seatManager;
+    private final CustomerManager customerManager;
+    private final SeatManager seatManager;
 
     private Player owner;
     private boolean open = false;
@@ -19,8 +20,11 @@ public class Restaurant {
     // -------------------------------------------------------
 
     public Restaurant(Player owner) {
+        List<Player> messageRecipients = new ArrayList<>();
+        messageRecipients.add(owner);
+
         seatManager = new SeatManager(new ArrayList<>());
-        customerManager = new CustomerManager(seatManager);
+        customerManager = new CustomerManager(seatManager, messageRecipients);
 
         this.owner = owner;
 

@@ -1,9 +1,11 @@
 package me.equaferrous.minecraftrestaurants;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.scheduler.BukkitTask;
@@ -44,6 +46,21 @@ public class Customer {
         }
         else {
             LeaveBad();
+        }
+    }
+
+    public void Leave(List<Player> messageRecipients) {
+        if (served) {
+            LeaveHappy();
+            for (Player player : messageRecipients) {
+                player.sendMessage(ChatColor.GREEN +"Customer served! +10xp");
+            }
+        }
+        else {
+            LeaveBad();
+            for (Player player : messageRecipients) {
+                player.sendMessage(ChatColor.RED +"A customer grew impatient and has left.");
+            }
         }
     }
 
@@ -106,14 +123,12 @@ public class Customer {
 
     private void LeaveHappy() {
         entity.remove();
-        Bukkit.broadcastMessage("Customer served.");
         Location location = entity.getLocation();
         entity.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, location.getX(), location.getY() + 0.75, location.getZ(), 25, 0.5, 0.75, 0.5);
     }
 
     private void LeaveBad() {
         entity.remove();
-        Bukkit.broadcastMessage("Customer left.");
         Location location = entity.getLocation();
         entity.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, location.getX(), location.getY() + 0.75, location.getZ(), 7, 0.5, 0.75, 0.5);
     }
