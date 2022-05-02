@@ -44,6 +44,11 @@ public class Restaurant {
         if (open) {
             open = false;
             customerManager.stopCustomerSpawning();
+            
+            List<Customer> allCustomers = new ArrayList<>(customerManager.getAllCustomers());
+            for (Customer customer : allCustomers) {
+                customerManager.CustomerLeave(customer);
+            }
         }
     }
 

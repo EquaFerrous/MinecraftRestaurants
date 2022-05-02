@@ -65,6 +65,10 @@ public class CustomerManager {
         seatManager.emptySeat(customer.getSeat());
     }
 
+    public List<Customer> getAllCustomers() {
+        return allCustomers;
+    }
+
     // -----------------------------------------------------------------
 
     // Sets up the dictionary of tier weights
