@@ -14,3 +14,7 @@ commands:
   toggleRestaurantOpen:
     description: Opens or closes your restaurant.
     usgae: /<command>
+  restaurant:
+    description: Restaurant command.
+    usgae: /<command>
+

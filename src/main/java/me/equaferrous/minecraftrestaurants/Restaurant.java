@@ -60,5 +60,13 @@ public class Restaurant {
         return open;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     // --------------------------------------------------------
 }
