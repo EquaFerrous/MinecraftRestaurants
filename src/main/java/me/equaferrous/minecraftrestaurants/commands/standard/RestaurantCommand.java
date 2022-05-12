@@ -72,11 +72,11 @@ public class RestaurantCommand implements CommandExecutor {
             Restaurant restaurant = restaurantManager.getPlayerRestaurant(player);
 
             if (args.length > 1) {
-                if (!args[1].equalsIgnoreCase("confirm")) {
+                if (args.length > 2) {
                     player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant delete");
                     return true;
                 }
-                else if (args.length > 2) {
+                if (!args[1].equalsIgnoreCase("confirm")) {
                     player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant delete");
                     return true;
                 }
