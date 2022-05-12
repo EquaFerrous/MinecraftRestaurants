@@ -19,15 +19,16 @@ public class RestaurantCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(ChatColor.YELLOW+"---------- "+ChatColor.WHITE+"Restaurants Help"+ChatColor.YELLOW+" ----------\n" +
-                                ChatColor.GOLD+"/restaurant info"+ChatColor.WHITE+": Get info about your restaurant\n" +
-                                ChatColor.GOLD+"/restaurant create"+ChatColor.WHITE+": Create a new restaurant\n" +
-                                ChatColor.GOLD+"/restaurant delete"+ChatColor.WHITE+": Delete your current restaurant\n" +
-                                ChatColor.GOLD+"/restaurant open"+ChatColor.WHITE+": Open your restaurant to customers\n" +
-                                ChatColor.GOLD+"/restaurant close"+ChatColor.WHITE+": Close your restaurant to customers\n" +
-                                ChatColor.GOLD+"/restaurant members"+ChatColor.WHITE+": Commands for managing restaurant members\n" +
-                                ChatColor.GOLD+"/restaurant update"+ChatColor.WHITE+": Commands for updating restaurant settings\n" +
-                                ChatColor.YELLOW+"-----------------------------------");
+            player.sendMessage(ChatColor.LIGHT_PURPLE+"---------- "+ChatColor.WHITE+"Restaurants Help"+ChatColor.LIGHT_PURPLE+" ----------\n" +
+                    ChatColor.WHITE+"Use "+ChatColor.GOLD+"/restaurant"+ChatColor.WHITE+" followed by:\n" +
+                    ChatColor.GOLD+" info"+ChatColor.WHITE+": Get info about your restaurant\n" +
+                    ChatColor.GOLD+" create"+ChatColor.WHITE+": Create a new restaurant\n" +
+                    ChatColor.GOLD+" delete"+ChatColor.WHITE+": Delete your current restaurant\n" +
+                    ChatColor.GOLD+" open"+ChatColor.WHITE+": Open your restaurant to customers\n" +
+                    ChatColor.GOLD+" close"+ChatColor.WHITE+": Close your restaurant to customers\n" +
+                    ChatColor.GOLD+" members"+ChatColor.WHITE+": Commands for managing restaurant members\n" +
+                    ChatColor.GOLD+" update"+ChatColor.WHITE+": Commands for updating restaurant settings\n" +
+                    ChatColor.LIGHT_PURPLE+"-----------------------------------");
             return true;
         }
 
@@ -46,10 +47,11 @@ public class RestaurantCommand implements CommandExecutor {
             }
 
             player.sendMessage(ChatColor.YELLOW+"---------- "+ChatColor.WHITE+"Restaurant Info"+ChatColor.YELLOW+" ----------\n" +
-                    ChatColor.WHITE+"Name: "+ChatColor.YELLOW + restaurant.getName()+"\n" +
-                    ChatColor.WHITE+"Level: "+ChatColor.YELLOW + restaurant.getLevel()+"\n" +
+                    ChatColor.WHITE+"Name: "+ChatColor.LIGHT_PURPLE + restaurant.getName()+"\n" +
+                    ChatColor.WHITE+"Level: "+ChatColor.LIGHT_PURPLE + restaurant.getLevel()+"\n" +
                     ChatColor.YELLOW+"-----------------------------------");
         }
+
         else if (args[0].equalsIgnoreCase("create")) {
             player.sendMessage("Create");
         }
