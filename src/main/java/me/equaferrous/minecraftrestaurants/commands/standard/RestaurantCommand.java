@@ -69,8 +69,34 @@ public class RestaurantCommand implements CommandExecutor {
         }
 
         else if (args[0].equalsIgnoreCase("delete")) {
-            player.sendMessage("Delete");
+            Restaurant restaurant = restaurantManager.getPlayerRestaurant(player);
+
+            if (args.length > 1) {
+                if (!args[1].equalsIgnoreCase("confirm")) {
+                    player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant delete");
+                    return true;
+                }
+                else if (args.length > 2) {
+                    player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant delete");
+                    return true;
+                }
+            }
+            if (restaurant == null) {
+                player.sendMessage(ChatColor.RED+"You do not have a restaurant to delete.");
+                return true;
+            }
+
+            if (args.length > 1) {
+                if (args[1].equalsIgnoreCase("confirm")) {
+                    restaurantManager.deleteRestaurant(player);
+                    player.sendMessage(ChatColor.GREEN+"Restaurant deleted. You can now create a new restaurant using "+ChatColor.GOLD+"/restaurant create");
+                    return true;
+                }
+            }
+
+            player.sendMessage(ChatColor.RED+"Please note: By completing this command you will permanently delete your restaurant and lose all progression tied to it. If you wish to continue use "+ChatColor.GOLD+"/restaurant delete confirm");
         }
+
         else if (args[0].equalsIgnoreCase("open")) {
             player.sendMessage("Open");
         }

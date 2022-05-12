@@ -31,6 +31,15 @@ public class RestaurantManager {
         }
     }
 
+    public void deleteRestaurant(Player owner) {
+        Restaurant restaurant = getPlayerRestaurant(owner);
+
+        if (!(restaurant == null)) {
+            restaurant.CloseRestaurant();
+            playerRestaurants.remove(owner);
+        }
+    }
+
     public Restaurant getPlayerRestaurant(Player owner) {
         return playerRestaurants.get(owner);
     }
