@@ -53,8 +53,21 @@ public class RestaurantCommand implements CommandExecutor {
         }
 
         else if (args[0].equalsIgnoreCase("create")) {
-            player.sendMessage("Create");
+            Restaurant restaurant = restaurantManager.getPlayerRestaurant(player);
+
+            if (args.length > 1) {
+                player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant create");
+                return true;
+            }
+            if (!(restaurant == null)) {
+                player.sendMessage(ChatColor.RED+"You already have a restaurant.");
+                return true;
+            }
+
+            restaurantManager.createRestaurant(player);
+            player.sendMessage(ChatColor.GREEN+"Restaurant created!");
         }
+
         else if (args[0].equalsIgnoreCase("delete")) {
             player.sendMessage("Delete");
         }
