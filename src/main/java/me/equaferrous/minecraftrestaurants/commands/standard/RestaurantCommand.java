@@ -37,12 +37,12 @@ public class RestaurantCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("info")) {
             Restaurant restaurant = restaurantManager.getPlayerRestaurant(player);
 
-            if (restaurant == null) {
-                player.sendMessage(ChatColor.RED+"You do not have a restaurant. Create one using "+ChatColor.GOLD+"/restaurant create");
-                return true;
-            }
             if (args.length > 1) {
                 player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant info");
+                return true;
+            }
+            if (restaurant == null) {
+                player.sendMessage(ChatColor.RED+"You do not have a restaurant. Create one using "+ChatColor.GOLD+"/restaurant create");
                 return true;
             }
 
@@ -69,6 +69,10 @@ public class RestaurantCommand implements CommandExecutor {
         }
         else if (args[0].equalsIgnoreCase("update")) {
             player.sendMessage("Update");
+        }
+
+        else {
+            player.sendMessage(ChatColor.RED+"Invalid command. Use "+ChatColor.GOLD+"/restaurant"+ChatColor.RED+" for help.");
         }
         return true;
     }
